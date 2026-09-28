@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>水晶庭 · La Crystalline</title>
+<link rel="icon" type="image/png" href="assets/emblem_nav.png">
+<link rel="apple-touch-icon" href="assets/emblem.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="水晶庭 · La Crystalline">
+<meta property="og:description" content="尋找心中那抹被遺忘的水晶之光。一座連接兩個世界的水晶塔特異點。">
+<meta property="og:image" content="assets/emblem_hero.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0a0e14;
+  --night:#111a2b;
+  --deep:#0d1420;
+  --crys:#7fd3d6;
+  --crys-dim:#4a8f95;
+  --gold:#d8b87a;
+  --mist:#e8edf2;
+  --mute:#9aa7b4;
+  --line:rgba(127,211,214,.18);
+  --serif:"Cormorant Garamond",serif;
+  --tc:"Noto Serif TC",serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:transparent;
+  color:var(--mist);
+  font-family:var(--tc);
+  font-weight:300;
+  line-height:1.9;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+.wrap{max-width:960px;margin:0 auto;padding:0 24px}
+
+/* ---------- crystalline night backdrop ---------- */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-3;
+  background:
+    radial-gradient(1100px 760px at 80% -6%, rgba(50,90,130,.30), transparent 60%),
+    radial-gradient(950px 700px at 10% 14%, rgba(35,65,110,.26), transparent 58%),
+    radial-gradient(900px 900px at 50% 116%, rgba(22,50,80,.30), transparent 62%),
+    linear-gradient(180deg,#070b12 0%,#0a1120 45%,#080d16 100%);
+}
+/* full crystalline facet sheet (tiled SVG), subtle */
+.crystal-veil{
+  position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background-image:url("assets/crystal.svg");
+  background-position:center top;background-repeat:no-repeat;
+  background-size:cover;
+  opacity:.42;
+  animation:hue 32s ease-in-out infinite;
+}
+/* refraction light sweep */
+.crystal-veil::after{
+  content:"";position:absolute;inset:-30%;
+  background:
+    radial-gradient(680px 460px at 28% 26%, rgba(127,211,214,.16), transparent 62%),
+    radial-gradient(560px 420px at 74% 62%, rgba(110,150,230,.15), transparent 62%),
+    radial-gradient(500px 500px at 52% 92%, rgba(150,120,210,.10), transparent 60%);
+  animation:refract 20s ease-in-out infinite alternate;
+}
+@keyframes hue{
+  0%{filter:hue-rotate(-8deg) brightness(1)}
+  33%{filter:hue-rotate(18deg) brightness(1.12)}
+  66%{filter:hue-rotate(40deg) brightness(1.08)}
+  100%{filter:hue-rotate(-8deg) brightness(1)}
+}
+@keyframes refract{
+  0%{transform:translate(-3%,-2%) scale(1);opacity:.7}
+  50%{transform:translate(3%,2%) scale(1.06);opacity:1}
+  100%{transform:translate(-2%,3%) scale(1.02);opacity:.75}
+}
+@media(prefers-reduced-motion:reduce){
+  .crystal-veil,.crystal-veil::after{animation:none}
+}
+
+/* ---------- crystal-wrapped classical divider ---------- */
+.beam{
+  width:420px;
+  height:34px;
+  margin:0 auto;
+  background:url("assets/ornament_divider_final.webp") center/contain no-repeat;
+  opacity:.96;
+  filter:drop-shadow(0 0 8px rgba(127,211,214,.12));
+}
+@media(prefers-reduced-motion:no-preference){
+  .beam{animation:shimmer 5s ease-in-out infinite}
+}
+@keyframes shimmer{0%,100%{opacity:.86}50%{opacity:1}}
+
+
+/* ---------- top nav ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 26px;
+  background:linear-gradient(to bottom,rgba(7,11,18,.86),rgba(7,11,18,0));
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  transition:background .4s ease, padding .4s ease;
+}
+.nav.solid{background:rgba(8,12,20,.92);padding:10px 26px;border-bottom:1px solid var(--line)}
+.nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none}
+.logo-img-nav{height:30px;width:auto;flex:none;display:block}
+.nav-logo .lt{font-family:var(--serif);font-size:1.15rem;color:var(--mist);letter-spacing:.14em;line-height:1}
+.nav-logo .lt small{display:block;font-family:var(--tc);font-size:.6rem;color:var(--crys-dim);letter-spacing:.3em;margin-top:2px}
+.nav-links{display:flex;gap:26px;align-items:center}
+.nav-links a{
+  color:var(--mute);text-decoration:none;font-size:.9rem;letter-spacing:.14em;
+  position:relative;padding:4px 0;transition:color .3s;
+}
+.nav-links a:hover{color:var(--crys)}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--crys);transition:width .3s}
+.nav-links a:hover::after{width:100%}
+.nav-links a.order-link{
+  color:var(--crys);border:1px solid rgba(127,211,214,.45);padding:6px 12px;border-radius:3px;
+  background:rgba(127,211,214,.07);letter-spacing:.1em;
+}
+.nav-links a.order-link::after{display:none}
+.nav-links a.order-link:hover{color:#dff9fa;border-color:var(--crys);background:rgba(127,211,214,.14)}
+.nav-toggle{display:none;background:none;border:none;color:var(--mist);font-size:1.5rem;cursor:pointer;line-height:1}
+@media(max-width:760px){
+  body.nav-open{overflow:hidden;touch-action:none}
+  .nav{z-index:1000;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(7,11,18,.96)}
+  .nav.menu-open{background:#070b12;border-bottom:1px solid rgba(127,211,214,.12);backdrop-filter:none;-webkit-backdrop-filter:none}
+  .nav-links{
+    position:fixed;
+    inset:0;
+    width:100vw;
+    height:100dvh;
+    min-height:100svh;
+    z-index:999;
+    flex-direction:column;
+    justify-content:flex-start;
+    align-items:center;
+    gap:0;
+    padding:calc(82px + env(safe-area-inset-top)) 24px calc(30px + env(safe-area-inset-bottom));
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    background:#070b12 !important;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transform:translateY(-8px);
+    transition:opacity .24s ease,visibility .24s ease,transform .24s ease;
+  }
+  .nav-links.open{opacity:1;visibility:visible;pointer-events:auto;transform:none}
+  .nav-links a{
+    width:min(82vw,320px);
+    padding:13px 8px;
+    text-align:center;
+    font-size:1.18rem;
+    line-height:1.35;
+    color:var(--mist);
+  }
+  .nav-links a + a{border-top:1px solid rgba(127,211,214,.08)}
+  .nav-links a.order-link{margin-top:10px;padding:11px 18px;border-top:1px solid rgba(127,211,214,.45)}
+  
+  .nav-logo,.nav-toggle{position:relative;z-index:1001}
+  .nav-toggle{display:block;font-size:1.65rem;padding:6px 4px}
+}
+/* hero logo mark */
+.logo-img-hero{height:84px;width:auto;margin:0 auto 16px;display:block;filter:drop-shadow(0 0 16px rgba(127,211,214,.45))}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;min-height:100svh;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:80px 24px;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:url('assets/hero_bar.jpg') center/cover no-repeat;
+  filter:saturate(1.05);
+}
+.hero-bg::after{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 50% 55%,rgba(10,14,20,.35),rgba(10,14,20,.82) 75%),
+    linear-gradient(to bottom,rgba(10,14,20,.55),rgba(10,14,20,.35) 40%,rgba(10,14,20,.9));
+}
+.hero-inner{position:relative;z-index:1;max-width:720px}
+.hero .en{
+  font-family:var(--serif);
+  font-size:clamp(2.6rem,9vw,5.2rem);
+  font-weight:500;letter-spacing:.06em;
+  color:var(--mist);line-height:1.05;
+}
+.hero .zh{
+  font-family:var(--serif);
+  font-size:clamp(1.5rem,5vw,2.4rem);
+  letter-spacing:.5em;
+  color:var(--crys);
+  margin:.4em 0 0 .5em;
+  font-weight:400;
+}
+.hero .slogan{
+  margin-top:2rem;font-size:clamp(1rem,3.4vw,1.2rem);
+  color:var(--mist);letter-spacing:.12em;font-weight:300;
+}
+.hero .fr{
+  margin-top:.6rem;font-family:var(--serif);font-style:italic;
+  font-size:1rem;color:var(--mute);letter-spacing:.04em;
+}
+.hero .tagline{
+  margin-top:2.4rem;font-size:.82rem;color:var(--crys-dim);
+  letter-spacing:.3em;font-weight:400;
+}
+.scroll-hint{
+  position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+  z-index:1;font-family:var(--serif);font-style:italic;
+  font-size:.85rem;color:var(--mute);letter-spacing:.1em;
+}
+
+/* ---------- section frame ---------- */
+section{padding:72px 0}
+.eyebrow{
+  font-family:var(--serif);font-style:italic;
+  color:var(--crys);font-size:1.05rem;letter-spacing:.08em;
+  margin-bottom:.3em;
+}
+.s-title{
+  font-family:var(--serif);
+  font-size:clamp(1.9rem,6vw,2.9rem);
+  font-weight:500;letter-spacing:.14em;color:var(--mist);
+  line-height:1.2;
+}
+.s-title .cn{display:block;font-family:var(--tc);font-size:.5em;letter-spacing:.4em;color:var(--mute);margin-top:.6em;font-weight:400}
+
+/* ---------- about ---------- */
+.about p{
+  max-width:38em;font-size:1.06rem;color:#c7d2dd;margin-top:1.4em;letter-spacing:.03em;
+}
+.about .accent{color:var(--crys);font-weight:400}
+.worlds{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:44px;
+}
+.world{position:relative;border-radius:2px;overflow:hidden;min-height:220px}
+.world img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.72)}
+.world .cap{
+  position:absolute;left:0;right:0;bottom:0;padding:18px 20px;z-index:1;
+  background:linear-gradient(to top,rgba(8,12,18,.92),transparent);
+}
+.world .cap .t{font-family:var(--serif);font-size:1.5rem;color:var(--mist);letter-spacing:.06em}
+.world .cap .d{font-size:.82rem;color:var(--mute);letter-spacing:.1em;margin-top:.2em}
+
+/* ---------- menu ---------- */
+.menu-head{margin-bottom:8px}
+.drink{
+  display:grid;grid-template-columns:1fr auto;gap:4px 20px;
+  padding:26px 0;border-bottom:1px solid var(--line);align-items:baseline;
+}
+.drink:last-child{border-bottom:none}
+.d-name{font-family:var(--serif);font-size:1.5rem;color:var(--mist);letter-spacing:.03em}
+.d-name .cn{font-family:var(--tc);font-weight:400}
+.d-name .en{color:var(--crys-dim);font-style:italic;font-size:1.05rem;margin-left:.5em}
+.d-attr{
+  display:inline-block;margin-left:.7em;font-size:.68rem;letter-spacing:.18em;
+  color:var(--ink);background:var(--attr,#7fd3d6);
+  padding:2px 9px;border-radius:20px;vertical-align:middle;font-weight:500;
+  font-family:var(--tc);
+}
+.d-price{font-family:var(--serif);font-size:1.25rem;color:var(--gold);white-space:nowrap;letter-spacing:.02em}
+.gil{font-size:.62em;opacity:.75;margin-left:.15em;letter-spacing:.05em}
+.d-desc{grid-column:1/2;color:var(--mute);font-size:.96rem;margin-top:.5em;max-width:34em;letter-spacing:.02em}
+.d-poem{grid-column:1/-1;font-family:var(--serif);font-style:italic;color:var(--crys-dim);font-size:1rem;margin-top:.5em;letter-spacing:.04em}
+
+/* hidden block */
+.hidden-blk{
+  margin-top:40px;padding:34px 30px;border:1px solid var(--line);border-radius:2px;
+  background:linear-gradient(160deg,rgba(17,26,43,.6),rgba(13,20,32,.3));
+  text-align:center;
+}
+.hidden-blk .h-name{font-family:var(--serif);font-size:1.7rem;color:var(--mist);letter-spacing:.08em}
+.hidden-blk .h-name .en{color:var(--crys-dim);font-style:italic;font-size:1.1rem;display:block;margin-top:.1em}
+.hidden-blk p{color:var(--mute);font-size:.98rem;margin-top:1em;letter-spacing:.03em;line-height:2}
+
+/* bites reuse .drink */
+
+/* ---------- special ---------- */
+.svc{
+  padding:26px 0;border-bottom:1px solid var(--line);
+}
+.svc:last-child{border-bottom:none}
+.svc-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+.svc-name{font-family:var(--serif);font-size:1.4rem;color:var(--mist);letter-spacing:.03em}
+.svc-name .en{color:var(--crys-dim);font-style:italic;font-size:1rem;margin-left:.5em}
+.svc-meta{font-size:.8rem;color:var(--crys-dim);letter-spacing:.08em;white-space:nowrap}
+.svc-price{font-family:var(--serif);font-size:1.15rem;color:var(--gold);letter-spacing:.02em}
+.svc-desc{color:var(--mute);font-size:.95rem;margin-top:.5em;max-width:36em}
+.svc-note{color:var(--crys-dim);font-size:.82rem;margin-top:.35em;letter-spacing:.03em}
+.svc-poem{font-family:var(--serif);font-style:italic;color:var(--crys-dim);font-size:.98rem;margin-top:.4em}
+
+
+/* ---------- section visual assets ---------- */
+.section-mark{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.section-mark img{width:88px;height:88px;object-fit:contain;filter:drop-shadow(0 0 18px rgba(127,211,214,.16))}
+.section-mark .mini{color:var(--crys-dim);font-size:.82rem;letter-spacing:.26em;text-transform:uppercase}
+.section-mark .mini-en{font-family:var(--serif);font-style:italic;color:var(--crys);font-size:1rem;letter-spacing:.04em;margin-top:.25em}
+
+/* Desktop menu follows the same vertical reading flow as mobile:
+   image → Chinese → English → attribute → price → ingredients / flavor
+   → description → closing line. */
+.drink{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  grid-auto-columns:minmax(0,1fr);
+  gap:7px;
+  padding:42px 0 48px;
+  border-bottom:none;
+  align-items:start;
+}
+.drink > *{
+  grid-column:1 / -1 !important;
+  grid-row:auto !important;
+  min-width:0;
+}
+.drink:not(:last-child)::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:4px;
+  transform:translateX(-50%);
+  width:380px;
+  height:28px;
+  background:url("assets/ornament_divider_final.webp") center/contain no-repeat;
+  opacity:.94;
+  filter:drop-shadow(0 0 8px rgba(127,211,214,.10));
+}
+.d-thumb{
+  order:1;
+  align-self:center;
+  width:154px;
+  max-width:154px;
+  aspect-ratio:1/1;
+  object-fit:contain;
+  margin:0 auto 10px;
+  filter:drop-shadow(0 0 20px rgba(127,211,214,.16));
+}
+.d-main{
+  order:2;
+  text-align:center;
+}
+.d-name{
+  font-size:1.56rem;
+  line-height:1.35;
+}
+.d-name .cn{display:block}
+.d-name .en{
+  display:block;
+  margin:.12em 0 0;
+  font-size:1.02rem;
+  line-height:1.35;
+}
+.d-attr{
+  display:inline-block;
+  margin:.7em 0 0;
+  padding:3px 10px;
+}
+.d-price{
+  order:3;
+  justify-self:center;
+  margin:.38em 0 .14em;
+  font-size:1.3rem;
+}
+.d-spec{
+  order:4;
+  width:min(100%,720px);
+  justify-self:center;
+  text-align:center;
+  color:var(--crys);
+  font-family:var(--serif);
+  font-size:.9rem;
+  line-height:1.75;
+  letter-spacing:.04em;
+  margin-top:.25em;
+  overflow-wrap:anywhere;
+}
+.d-flavor{
+  order:5;
+  width:min(100%,720px);
+  justify-self:center;
+  text-align:center;
+  color:#aeb9c4;
+  font-size:.82rem;
+  line-height:1.8;
+  letter-spacing:.08em;
+  margin-top:.2em;
+}
+.d-desc{
+  order:6;
+  width:min(100%,720px);
+  max-width:none;
+  justify-self:center;
+  color:var(--mute);
+  font-size:.96rem;
+  line-height:2;
+  letter-spacing:.02em;
+  margin-top:.85em;
+}
+.d-poem{
+  order:7;
+  width:min(100%,720px);
+  justify-self:center;
+  text-align:center;
+  font-family:var(--serif);
+  font-style:italic;
+  color:var(--crys-dim);
+  font-size:1rem;
+  line-height:1.8;
+  letter-spacing:.04em;
+  margin-top:.75em;
+}
+.menu-note{margin-top:18px;color:var(--mute);font-size:.92rem}
+.drinks .wrap > div[style="margin-top:24px"],
+.bites .wrap > div[style="margin-top:24px"]{
+  width:min(100%,820px);
+  margin-left:auto;
+  margin-right:auto;
+}
+.order-cta{margin-top:34px;display:flex;justify-content:center}
+.order-btn{display:inline-flex;align-items:center;gap:12px;padding:11px 18px;border:1px solid rgba(127,211,214,.35);border-radius:4px;background:rgba(127,211,214,.07);color:var(--mist);text-decoration:none;letter-spacing:.14em;transition:.24s}
+.order-btn img{width:32px;height:32px;object-fit:contain}
+.order-btn:hover{border-color:var(--crys);background:rgba(127,211,214,.14);transform:translateY(-1px)}
+
+/* ---------- members ---------- */
+.member-carousel-shell{position:relative;margin-top:4px}
+.member-carousel{
+  display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;
+  scrollbar-width:none;padding:8px 54px 14px;scroll-behavior:smooth;
+}
+.member-carousel::-webkit-scrollbar{display:none}
+.member-card{
+  flex:0 0 clamp(220px,26vw,270px);scroll-snap-align:center;
+  border:1px solid rgba(127,211,214,.16);border-radius:4px;
+  background:rgba(14,22,34,.48);padding:0 0 14px;color:inherit;
+  text-align:left;cursor:pointer;transition:.24s ease;overflow:hidden;
+  box-shadow:0 12px 30px rgba(0,0,0,.14)
+}
+.member-card:hover{border-color:rgba(127,211,214,.38);transform:translateY(-2px)}
+.member-card.active{border-color:rgba(127,211,214,.64);box-shadow:0 0 0 1px rgba(127,211,214,.08),0 18px 38px rgba(0,0,0,.24)}
+.member-card .portrait{aspect-ratio:3/4;border:0;border-bottom:1px solid rgba(127,211,214,.12);border-radius:0;padding:0;margin:0;max-width:none}
+.member-card img{width:100%;height:100%;object-fit:cover;object-position:center center;display:block}
+.member-card .northwind-portrait{position:relative;overflow:hidden}
+.member-card .northwind-portrait .member-signature{
+  position:absolute;right:-3%;bottom:3.5%;z-index:3;
+  width:76%;height:auto;object-fit:contain;object-position:center;
+  opacity:.94;pointer-events:none;user-select:none;
+  image-rendering:auto;
+  transform:rotate(-10deg);
+  transform-origin:center center;
+}
+.member-card-copy{padding:13px 15px 0}
+.member-card-name{font-family:var(--serif);font-size:1.45rem;color:var(--mist);letter-spacing:.05em}
+.member-card-en{display:block;color:var(--crys-dim);font-family:var(--serif);font-style:italic;font-size:.9rem;margin-top:.05em}
+.member-card-role{color:var(--crys);font-size:.72rem;letter-spacing:.13em;margin-top:.55em}
+.member-card-rp{color:var(--mute);font-size:.78rem;line-height:1.55;margin-top:.55em}
+.member-arrow{
+  position:absolute;top:42%;transform:translateY(-50%);z-index:3;width:36px;height:36px;
+  border:1px solid rgba(127,211,214,.28);border-radius:50%;background:rgba(8,16,26,.78);
+  color:var(--mist);font-family:var(--serif);font-size:1.45rem;line-height:1;cursor:pointer;
+  display:grid;place-items:center;backdrop-filter:blur(6px);transition:.2s ease
+}
+.member-arrow:hover{border-color:rgba(127,211,214,.62);background:rgba(20,39,53,.9)}
+.member-arrow.prev{left:4px}.member-arrow.next{right:4px}
+.member-dots{display:flex;justify-content:center;gap:8px;margin:3px 0 30px}
+.member-dot{width:7px;height:7px;border-radius:50%;border:1px solid rgba(127,211,214,.45);background:transparent;padding:0;cursor:pointer;transition:.2s}
+.member-dot.active{background:var(--crys);box-shadow:0 0 10px rgba(127,211,214,.38)}
+.member-detail{max-width:850px;margin:0 auto;padding-top:6px;animation:memberFade .26s ease}
+.member-detail:empty{display:none}
+@keyframes memberFade{from{opacity:.25;transform:translateY(4px)}to{opacity:1;transform:none}}
+.m-name{font-family:var(--serif);font-size:2.1rem;color:var(--mist);letter-spacing:.05em}
+.m-name .en{color:var(--crys-dim);font-style:italic;font-size:1.15rem;display:block;margin-top:.05em}
+.m-role{color:var(--crys);font-size:.85rem;letter-spacing:.14em;margin-top:.6em}
+.m-meta{margin-top:1em;padding:11px 14px;border-left:2px solid var(--crys-dim);background:rgba(127,211,214,.045);display:grid;gap:6px;max-width:42em}
+.m-meta-row{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.m-meta-label{color:var(--crys-dim);font-family:var(--serif);font-size:.76rem;letter-spacing:.16em;min-width:6.2em}
+.m-meta-value{color:#cbd6df;font-size:.9rem;letter-spacing:.06em}
+.m-body p{color:#c3ced9;font-size:1.02rem;margin-top:1.1em;letter-spacing:.02em;max-width:50em}
+.m-quote{font-family:var(--serif);font-style:italic;color:var(--crys);font-size:1.2rem;margin-top:1.4em;letter-spacing:.03em}
+.m-foot{color:var(--mute);font-size:.92rem;margin-top:1.1em;padding-top:1.1em;border-top:1px solid var(--line);font-family:var(--serif);font-style:italic}
+
+/* ---------- rules ---------- */
+.rules{max-width:44em}
+.rule{padding:16px 0;border-bottom:1px solid var(--line)}
+.rule:last-of-type{border-bottom:none}
+.rule .rt{color:var(--crys);font-size:.95rem;letter-spacing:.1em;margin-bottom:.2em}
+.rule .rd{color:var(--mute);font-size:.96rem;letter-spacing:.02em}
+.rules .thanks{font-family:var(--serif);font-style:italic;color:var(--crys-dim);margin-top:26px;font-size:1.05rem}
+
+/* ---------- find us ---------- */
+.find{text-align:center;background:linear-gradient(to bottom,var(--ink),var(--deep))}
+.find .row{margin-top:1.6em}
+.find .k{color:var(--crys-dim);font-size:.8rem;letter-spacing:.24em;margin-bottom:.3em}
+.find .v{font-family:var(--serif);font-size:1.5rem;color:var(--mist);letter-spacing:.06em}
+
+/* ---------- footer ---------- */
+footer{text-align:center;padding:50px 24px 60px;border-top:1px solid var(--line)}
+footer .fname{font-family:var(--serif);font-size:1.4rem;color:var(--mist);letter-spacing:.14em}
+footer .faddr{color:var(--mute);font-size:.85rem;margin-top:.5em;letter-spacing:.08em}
+footer .warn{color:var(--crys-dim);font-size:.74rem;margin-top:1.4em;letter-spacing:.06em;line-height:1.9}
+footer .cr{color:#4a5560;font-size:.72rem;margin-top:1em;letter-spacing:.05em}
+
+@media(max-width:680px){
+  section{padding:56px 0}
+  .worlds{grid-template-columns:1fr}
+  .member-carousel{gap:12px;padding:6px 38px 12px 14px;scroll-padding-inline:14px}
+  .member-card{flex-basis:min(72vw,245px)}
+  .member-arrow{width:32px;height:32px;font-size:1.25rem;top:40%}
+  .member-arrow.prev{left:2px}.member-arrow.next{right:2px}
+  .member-detail{padding:0 2px}
+  .m-name{font-size:1.8rem}
+
+  /* Mobile keeps the same vertical menu flow, with tighter spacing. */
+  .drink{
+    gap:7px;
+    padding:32px 0 40px;
+  }
+  .drink:not(:last-child)::after{
+    bottom:2px;
+    width:min(78vw,270px);
+    height:22px;
+  }
+  .beam{
+    width:min(86vw,320px);
+    height:28px;
+  }
+  .drink > *{
+    grid-column:1 / -1 !important;
+    grid-row:auto !important;
+    min-width:0;
+  }
+  .d-thumb{
+    order:1;
+    width:128px;
+    max-width:128px;
+    margin:0 auto 8px;
+  }
+  .d-main{
+    order:2;
+    text-align:center;
+    min-width:0;
+  }
+  .d-name{
+    font-size:1.48rem;
+    line-height:1.35;
+  }
+  .d-name .cn{
+    display:block;
+  }
+  .d-name .en{
+    display:block;
+    margin:.12em 0 0;
+    font-size:1rem;
+    line-height:1.35;
+  }
+  .d-attr{
+    display:inline-block;
+    margin:.65em 0 0;
+    padding:3px 10px;
+  }
+  .d-price{
+    order:3;
+    justify-self:center;
+    margin:.35em 0 .15em;
+    font-size:1.28rem;
+  }
+  .d-spec{
+    order:4;
+    width:100%;
+    text-align:center;
+    margin-top:.25em;
+    font-size:.82rem;
+    line-height:1.75;
+    overflow-wrap:anywhere;
+  }
+  .d-flavor{
+    order:5;
+    width:100%;
+    text-align:center;
+    margin-top:.2em;
+    font-size:.8rem;
+    line-height:1.8;
+  }
+  .d-desc{
+    order:6;
+    width:100%;
+    max-width:none;
+    margin-top:.8em;
+    font-size:.94rem;
+    line-height:2;
+  }
+  .d-poem{
+    order:7;
+    width:100%;
+    text-align:center;
+    margin-top:.75em;
+    line-height:1.8;
+  }
+  .section-mark{flex-direction:column;align-items:flex-start}
+  .section-mark img{width:72px;height:72px}
+}
+
+
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <!-- Static GitHub copy: no Supabase/backend connection; nomination, special-service, Discord and contact links removed. -->
+</head>
+<body>
+<div class="crystal-veil" aria-hidden="true"></div>
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="#top"><img src="assets/emblem_nav.png" alt="水晶庭" class="logo-img-nav"><span class="lt">La Crystalline<small>水晶庭</small></span></a>
+  <div class="nav-links" id="navLinks">
+    <a href="#about">關於</a>
+    <a href="#drinks">調酒</a>
+    <a href="#bites">餐點</a>
+    <a href="#master">成員</a>
+    <a href="#find">FIND US</a>
+  </div>
+  <button class="nav-toggle" id="navToggle" aria-label="選單" aria-controls="navLinks" aria-expanded="false">☰</button>
+</nav>
+
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-mark"><img src="assets/emblem_hero.png" alt="水晶庭" class="logo-img-hero"></div>
+    <div class="en">La&nbsp;Crystalline</div>
+    <div class="zh">水晶庭</div>
+    <p class="slogan">尋找心中那抹被遺忘的水晶之光</p>
+    <p class="fr">La lumière oubliée du cristal.</p>
+    <p class="tagline">一座連接兩個世界的特異點</p>
+  </div>
+  <div class="scroll-hint">— 推門而入 —</div>
+</header>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="section-mark">
+      <img src="assets/icon_portal.png" alt="特異點之門" loading="lazy" decoding="async">
+      <div>
+        <div class="mini">關於此間</div>
+        <div class="mini-en">A Node Between Worlds</div>
+      </div>
+    </div>
+    <h2 class="s-title">此間由來<span class="cn">A NODE BETWEEN WORLDS</span></h2>
+    <p>《水晶庭》並非水晶塔本身，而是一座仿其原理而生的<span class="accent">「特異點」</span>——承接了那座亞拉戈古塔「連接兩個世界」的力量碎片。</p>
+    <p>無人知曉它為何選在海霧村顯現，只知它同時朝向兩扇窗：一扇是繁華的都市之夜，一扇是霧雨中的寧靜山林，彷彿要把那座塔連接的兩端，都收攏在這一方庭院裡。</p>
+    <p>而能讓這座特異點運轉的，唯有身懷亞拉戈皇血之人。</p>
+    <div class="worlds">
+      <div class="world">
+        <img src="assets/night.jpg" alt="夜景區" loading="lazy" decoding="async">
+        <div class="cap"><div class="t">夜之側</div><div class="d">繁華都市的燈火</div></div>
+      </div>
+      <div class="world">
+        <img src="assets/mountain.jpg" alt="山景區" loading="lazy" decoding="async">
+        <div class="cap"><div class="t">山之側</div><div class="d">霧雨中的寧靜山林</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="beam"></div>
+
+<!-- DRINKS -->
+<section class="drinks" id="drinks">
+  <div class="wrap">
+    <div class="eyebrow menu-head">汲母水晶之光，經寶石釀成</div>
+    <h2 class="s-title">特色調酒<span class="cn">SIGNATURES</span></h2>
+    <div class="menu-note">※ 圖片僅供參考。異界素材在海德林之力下，於店內或會呈現不同模樣；但無論模樣如何，盛入其中的誠摯心意始終如一。</div>
+    <div style="margin-top:24px">
+
+      <div class="drink" style="--attr:#7fd3d6">
+        <img class="d-thumb" src="assets/drink_crystal.png" alt="水晶之光" loading="lazy" decoding="async">
+        <div class="d-main d-name"><span class="cn">水晶之光</span><span class="en">Crystal</span><span class="d-attr" style="--attr:#7fd3d6">意力 MND</span></div>
+        <div class="d-spec">Gin · Elderflower · Lemon · Soda</div>
+        <div class="d-price">25,000<span class='gil'>Gil</span></div>
+        <div class="d-desc">澄澈琴酒揉合接骨木花與新鮮檸檬，以細緻氣泡拉出清冽輪廓。中央冰晶隨酒液緩緩融化，香氣也在杯中逐漸展開；入口明亮、乾淨，尾韻留下淡淡花香與柑橘回甘。</div>
+        <div class="d-poem">那抹被遺忘的光，原來一直在杯底。</div>
+        <div class="d-flavor">風味｜清爽・花香・柑橘・微氣泡　酒感｜★★★☆☆</div>
+      </div>
+
+      <div class="drink">
+        <img class="d-thumb" src="assets/drink_lapis.png" alt="深邃青金" loading="lazy" decoding="async">
+        <div class="d-main d-name"><span class="cn">深邃青金</span><span class="en">Lapis Lazuli</span><span class="d-attr" style="--attr:#5b7fd8">智力 INT</span></div>
+        <div class="d-spec">Gin · Vodka · Blue Curaçao · Blueberry · Lemon</div>
+        <div class="d-price">15,000<span class='gil'>Gil</span></div>
+        <div class="d-desc">琴酒與伏特加撐起俐落骨架，藍莓的深色果香與藍柑橘交疊，再以檸檬收束甜度。酒液呈深邃青藍，少量金箔如夜幕裡散落的燈火；入口先是莓果，隨後浮出柑橘與草本氣息。</div>
+        <div class="d-poem">把整座城市的燈火，斟進一只杯中。</div>
+        <div class="d-flavor">風味｜莓果・柑橘・微酸甜　酒感｜★★★☆☆</div>
+      </div>
+
+      <div class="drink">
+        <img class="d-thumb" src="assets/drink_ruby.png" alt="熾焰紅寶" loading="lazy" decoding="async">
+        <div class="d-main d-name"><span class="cn">熾焰紅寶</span><span class="en">Ruby</span><span class="d-attr" style="--attr:#d87a8f">剛力 STR</span></div>
+        <div class="d-spec">Gin · Raspberry · Rose · Cranberry · Lemon</div>
+        <div class="d-price">15,000<span class='gil'>Gil</span></div>
+        <div class="d-desc">以琴酒為底，覆盆莓與蔓越莓堆疊出鮮明紅色果香，再以少量玫瑰拉出柔軟的花香尾韻。酸甜明亮，入口熱烈卻不厚重，像紅寶石在光下短暫燃起。</div>
+        <div class="d-poem">心口那簇火，從未真正熄滅。</div>
+        <div class="d-flavor">風味｜莓果・玫瑰・酸甜・馥郁　酒感｜★★★☆☆</div>
+      </div>
+
+      <div class="drink">
+        <img class="d-thumb" src="assets/drink_amethyst.png" alt="迷夢紫晶" loading="lazy" decoding="async">
+        <div class="d-main d-name"><span class="cn">迷夢紫晶</span><span class="en">Amethyst</span><span class="d-attr" style="--attr:#a97fd8">巧力 DEX</span></div>
+        <div class="d-spec">Gin · Violet · White Grape · Sencha · Lemon</div>
+        <div class="d-price">15,000<span class='gil'>Gil</span></div>
+        <div class="d-desc">白葡萄的清甜先行，紫羅蘭香氣隨後展開，冷萃煎茶藏在酒體後段，替花香添上一點乾淨的澀感與深度。整體柔和而細緻，紫色酒液介於清醒與夢境之間。</div>
+        <div class="d-poem">夢與清醒的交界，是一抹淡紫。</div>
+        <div class="d-flavor">風味｜葡萄・花香・茶香・柔酸　酒感｜★★☆☆☆</div>
+      </div>
+
+      <div class="drink">
+        <img class="d-thumb" src="assets/drink_topaz.png" alt="曦光黃玉" loading="lazy" decoding="async">
+        <div class="d-main d-name"><span class="cn">曦光黃玉</span><span class="en">Topaz</span><span class="d-attr" style="--attr:#d8b87a">耐力 VIT</span></div>
+        <div class="d-spec">Gin · Lillet Blanc · White Grape · Citrus · Honey · Sparkling Wine</div>
+        <div class="d-price">15,000<span class='gil'>Gil</span></div>
+        <div class="d-desc">琴酒與 Lillet Blanc 疊出輕盈酒體，白葡萄、柑橘與蜂蜜帶來柔和金色甜香，最後補上氣泡酒，使整杯保持明亮與乾爽。第一口像清晨的果香，尾韻則留下淡淡蜂蜜與柑橘皮。</div>
+        <div class="d-poem">風雨過後，總有人為你留一盞燈。</div>
+        <div class="d-flavor">風味｜柑橘・白葡萄・蜂蜜・氣泡　酒感｜★★★☆☆</div>
+      </div>
+
+    </div>
+
+    <!-- hidden -->
+    <div class="hidden-blk">
+      <div class="h-name">暮星<span class="en">Vesper</span></div>
+      <div style="color:var(--crys-dim);font-size:.78rem;letter-spacing:.2em;margin-top:.4em">本日特調 · Today\'s Special</div>
+      <p>以海德林入夜後，第一顆亮起的星光所釀。<br>每一夜的星光都不盡相同，杯中的滋味亦然——<br>是什麼顏色、什麼風味，待看板亮起，親自造訪方知。</p>
+      <p style="color:var(--mute);font-style:italic;margin-top:.8em">……又或者，你只是想點一杯純粹的 Vesper？</p>
+      <p style="color:var(--gold);font-family:var(--serif);font-size:1.15rem;margin-top:.6em;letter-spacing:.05em">20,000<span class='gil'>Gil</span></p>
+    </div>
+</section>
+
+<div class="beam"></div>
+
+<!-- BITES -->
+<section class="bites" id="bites">
+  <div class="wrap">
+    <div class="eyebrow menu-head">佐酒小點</div>
+    <h2 class="s-title">精選餐點<span class="cn">BITES</span></h2>
+    <div style="margin-top:24px">
+
+      <div class="drink">
+        <img class="d-thumb" src="assets/bite_stardust.png" alt="星屑" loading="lazy" decoding="async">
+        <div class="d-main d-name"><span class="cn">星屑</span><span class="en">Stardust</span></div>
+        <div class="d-price">25,000<span class='gil'>Gil</span></div>
+        <div class="d-desc">烘得金黃的手工餅乾，灑上細砂糖如撒落的星塵，配酒或配茶都相宜。</div>
+        <div class="d-poem">把一小塊夜空，收進口袋裡。</div>
+      </div>
+
+      <div class="drink">
+        <img class="d-thumb" src="assets/bite_geode.png" alt="熔晶" loading="lazy" decoding="async">
+        <div class="d-main d-name"><span class="cn">熔晶</span><span class="en">Molten Geode</span></div>
+        <div class="d-price">25,000<span class='gil'>Gil</span></div>
+        <div class="d-desc">熱騰騰的焗烤乳酪，表層金脆、內裡如熔化的晶心般牽絲流動。</div>
+        <div class="d-poem">最堅硬的殼裡，藏著最柔軟的芯。</div>
+      </div>
+
+      <div class="drink">
+        <img class="d-thumb" src="assets/bite_moonfall.png" alt="月落" loading="lazy" decoding="async">
+        <div class="d-main d-name"><span class="cn">月落</span><span class="en">Moonfall</span></div>
+        <div class="d-price">25,000<span class='gil'>Gil</span></div>
+        <div class="d-desc">乳白如月華傾落的燉湯，深海漁獲熬煮多時，鮮醇暖心。</div>
+        <div class="d-poem">月亮沉進碗裡的那一刻，最暖。</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="beam"></div>
+
+<!-- MASTER -->
+<section class="master-sec" id="master">
+  <div class="wrap">
+    <div class="eyebrow">在此間點燈的人</div>
+    <h2 class="s-title" style="margin-bottom:28px">成員<span class="cn">MEMBERS</span></h2>
+
+    <div class="member-carousel-shell">
+      <button class="member-arrow prev" id="memberPrev" type="button" aria-label="上一位成員">‹</button>
+      <div class="member-carousel" id="memberCarousel">
+        <button class="member-card" type="button" data-member="0" aria-pressed="false">
+          <div class="portrait northwind-portrait"><img src="assets/master.webp" alt="店長 北風" loading="lazy" decoding="async"><img class="member-signature" src="assets/northern_wind_signature_member_m10.png" alt="" aria-hidden="true"></div>
+          <div class="member-card-copy">
+            <div class="member-card-name">北風<span class="member-card-en">Northern Wind</span></div>
+            <div class="member-card-role">店長 / Keeper</div>
+            <div class="member-card-rp">店長・調酒</div>
+          </div>
+        </button>
+        <button class="member-card" type="button" data-member="1" aria-pressed="false">
+          <div class="portrait"><img src="assets/hunfen_profile.webp" alt="水晶庭成員 混分" loading="lazy" decoding="async"></div>
+          <div class="member-card-copy">
+            <div class="member-card-name">混分<span class="member-card-en">Hunfen</span></div>
+            <div class="member-card-role">夥伴 / Staff</div>
+            <div class="member-card-rp">接待・調酒・陪聊・表演・攝影</div>
+          </div>
+        </button>
+        <button class="member-card" type="button" data-member="2" aria-pressed="false">
+          <div class="portrait"><img src="assets/chikage_profile.webp" alt="水晶庭成員 千影" loading="lazy" decoding="async"></div>
+          <div class="member-card-copy">
+            <div class="member-card-name">千影<span class="member-card-en">Chi·Kage</span></div>
+            <div class="member-card-role">夥伴 / Staff</div>
+            <div class="member-card-rp">前臺接待</div>
+          </div>
+        </button>
+        <button class="member-card" type="button" data-member="3" aria-pressed="false">
+          <div class="portrait"><img src="assets/amu_profile.webp" alt="水晶庭成員 阿木" loading="lazy" decoding="async"></div>
+          <div class="member-card-copy">
+            <div class="member-card-name">阿木<span class="member-card-en">Amu</span></div>
+            <div class="member-card-role">夥伴 / Staff</div>
+            <div class="member-card-rp">接待・陪聊</div>
+          </div>
+        </button>
+      </div>
+      <button class="member-arrow next" id="memberNext" type="button" aria-label="下一位成員">›</button>
+    </div>
+
+    <div class="member-dots" id="memberDots" aria-hidden="true">
+      <button class="member-dot" type="button" data-member="0" tabindex="-1"></button>
+      <button class="member-dot" type="button" data-member="1" tabindex="-1"></button>
+      <button class="member-dot" type="button" data-member="2" tabindex="-1"></button>
+      <button class="member-dot" type="button" data-member="3" tabindex="-1"></button>
+    </div>
+
+    <div class="member-detail" id="memberDetail" aria-live="polite"></div>
+  </div>
+</section>
+
+<div class="beam"></div>
+
+<!-- RULES -->
+<section class="rules-sec">
+  <div class="wrap">
+    <div class="eyebrow">入店須知</div>
+    <h2 class="s-title" style="margin-bottom:28px">店內規則<span class="cn">HOUSE RULES</span></h2>
+    <div class="rules">
+      <div class="rule"><div class="rt">氛圍與界線</div><div class="rd">本店提供餐飲、合照與陪伴，嚴禁任何違規、色情或令人不適的言行。</div></div>
+      <div class="rule"><div class="rt">最低消費</div><div class="rd">每位旅者至少點用一杯飲品或一份餐點。</div></div>
+      <div class="rule"><div class="rt">空間與動線</div><div class="rd">入店後請協助收起武器，並安置您的隨行寵物。</div></div>
+      <div class="rule"><div class="rt">入店模式</div><div class="rd">請切換「走路模式」，並關閉情感動作的聊天欄文字。</div></div>
+      <div class="rule"><div class="rt">服裝規範</div><div class="rd">請避免強烈發光、內衣或搞怪等不符合店內氛圍的服飾。</div></div>
+      <div class="rule"><div class="rt">RP 與隱私</div><div class="rd">店員均以 RP 身份服務，請勿打探現實生活等個人隱私。</div></div>
+      <div class="rule"><div class="rt">互相尊重</div><div class="rd">請保持社交禮儀；店員有權拒絕任何令人不適的請求。</div></div>
+      <div class="rule"><div class="rt">拍攝規範</div><div class="rd">嚴禁錄影、Mod 改圖及 R18+ 拍攝；若畫面包含其他旅者，請先取得對方同意。</div></div>
+      <div class="rule"><div class="rt">線下邊界</div><div class="rd">非營業時間，嚴禁任何形式的跟蹤店員或騷擾行為。</div></div>
+      <div class="rule"><div class="rt">未成年提醒</div><div class="rd">本店供應酒精飲品，未滿十八歲禁止飲酒。</div></div>
+      <div class="thanks">水晶庭，感謝您的光臨。</div>
+    </div>
+  </div>
+</section>
+
+<!-- FIND US -->
+<section class="find" id="find">
+  <div class="wrap">
+    <div class="eyebrow" style="text-align:center">循光而來</div>
+    <h2 class="s-title">FIND US</h2>
+    <div class="row"><div class="k">所在地</div><div class="v">伊弗利特 · 海霧村 · 10 區 45 號</div></div>
+    <div class="row"><div class="k">營業時間</div><div class="v">每週六 22:00 — 02:00　<span style="font-size:.6em;color:var(--mute);letter-spacing:.1em">（表定）</span></div>
+      <div style="margin-top:.9em;font-family:var(--serif);font-style:italic;color:var(--crys-dim);font-size:1rem;letter-spacing:.03em;max-width:30em;margin-left:auto;margin-right:auto">實際營業以遊戲內「招募／募集」看板為準——<br>看板亮起，燈就為你點著。</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="fname">水晶庭 · La Crystalline</div>
+  <div class="faddr">伊弗利特 - 海霧村 - 10區 45號</div>
+  <div class="warn">未滿十八歲禁止飲酒 ｜ 飲酒過量有害健康 ｜ 酒後不開車，安全有保障</div>
+  <div class="cr">© 2026 La Crystalline．本站為《FINAL FANTASY XIV》玩家自製 RP 同好內容，與 SQUARE ENIX 無關。</div>
+</footer>
+
+<script>
+
+(function(){
+  var nav=document.getElementById('nav'),t=document.getElementById('navToggle'),l=document.getElementById('navLinks');
+  function setNavOpen(open){
+    l.classList.toggle('open',open);
+    nav.classList.toggle('menu-open',open);
+    document.body.classList.toggle('nav-open',open);
+    t.textContent=open?'\u2715':'\u2630';
+    t.setAttribute('aria-expanded',open?'true':'false');
+  }
+  t.addEventListener('click',function(){setNavOpen(!l.classList.contains('open'))});
+  l.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){setNavOpen(false)})});
+  window.addEventListener('resize',function(){if(window.innerWidth>760)setNavOpen(false)});
+  window.addEventListener('scroll',function(){
+    if(window.scrollY>60)nav.classList.add('solid');else nav.classList.remove('solid');
+  });
+})();
+const MEMBER_PROFILES=[
+  {
+    name:"北風", en:"Northern Wind", role:"店長 / Keeper",
+    meta:[["RP 擔當","店長・調酒"]],
+    body:[
+      "你此刻見到的，是一位以斯卡提山脈山林之民模樣行走於此的旅者。他舉止文雅而從容，與初識之人總保留幾分恰到好處的距離，因此多少顯得難以看透；但真正熟悉之後，才會發現他其實相當健談。從書、工藝與音樂，到城市、山林與旅途中遇見的人事，他總有不少故事可說。",
+      "但這具身體，並不是他真正的樣子。據說他的本體流著古老的亞拉戈皇血——正是這份血脈，讓他有資格喚醒並看守這座水晶塔特異點。魂與記憶渡得過來，肉身卻總隨世界而變；如今這副山林之民的軀殼，不過是特異點為他開啟的、又一種「可能性的身體」。至於他真正的容貌、那雙傳說中的紅瞳，此刻並不在這裡。",
+      "他曾在城市生活，也走過山野與漫長旅途；做過工藝、研究過古老知識，也以冒險者的身分去過不少地方。如今比起刀光劍影，他更喜歡把時間花在酒、料理、書本與工坊裡，把一件件東西慢慢做好。",
+      "至於為何最後停在水晶庭，他自己也說不清。最初似乎只是循著某種來自水晶的指引走到這裡——他曾以為那是海德林的聲音，如今卻不再急著替它下定論。水晶庭原本只是旅途中的停留之處，最後卻成了他選擇留下、替來客點燈的地方。"
+    ],
+    quote:"「……你也是來躲雨的嗎？坐吧。這裡的光，會等你。」",
+    foot:"比起刀光劍影，他如今更享受替來客點燈、斟酒，以及把一件件事慢慢做好。"
+  },
+  {
+    name:"混分", en:"Hunfen", role:"夥伴 / Staff",
+    meta:[["RP 擔當","接待・調酒・陪聊・表演・攝影"],["氣質","男裝麗人・溫柔優雅・旅人"]],
+    body:[
+      "她看起來總像是剛從一段很長的旅程裡走進來。俐落的男裝、從容的舉止，加上一種不急著說明自己的氣質，使初見之人往往先記住她的優雅與些許神祕。她待人極有禮貌，說話不疾不徐；若你願意多坐一會，便會發現那份距離其實很柔軟。",
+      "她在東方文化的環境裡長大，之後卻很少真正停在一個地方。一路上做過表演者，也接觸過學問與工藝；有時跟著音樂走，有時為一道料理、一杯酒，或某本書在陌生城市多留幾日。對她而言，旅行從來不是為了抵達某個偉大的終點，而是去認識不同的人、不同的生活，以及那些只有停下來才會看見的小事。",
+      "水晶庭原本也只是她旅途中的一站。某個夜晚，她在這裡喝過酒、聽過幾段故事，也看見有人在水晶的微光下卸下一天的疲憊。於是她沒有急著離開。起初只是順手幫著接待來客，後來也會站到吧檯後調酒；興致來時上場表演，或替客人拍下一張屬於那晚的留影。沒有特別戲劇性的理由，只是覺得這裡值得多停一陣子。",
+      "若只是初識，她會把分寸拿捏得很漂亮；熟悉之後卻會明顯健談許多，甚至偶爾露出有些天然的一面。從旅行見聞、音樂與美食，到一些奇怪的小知識，她都很樂意慢慢聊。"
+    ],
+    quote:"「若今晚不急著趕路，就再坐一會吧。我還有很多故事，可以慢慢說給你聽。」",
+    foot:"她喜歡替人斟酒，也喜歡替人留下照片。旅行帶走很多東西，能留下的，往往只是片刻與記憶。"
+  },
+  {
+    name:"千影", en:"Chi·Kage", role:"夥伴 / Staff",
+    meta:[["RP 擔當","前臺接待"],["氣質","古板有禮・隨性淡然・獨行傭兵"]],
+    body:[
+      "無論何時見到千影，他的言行總帶著幾分古板的禮貌。端正的措辭與習慣性的距離感，常讓初識之人覺得難以接近；真正相處後才會發現，他其實隨性得近乎沒有脾氣，對大多數事情都不怎麼計較。",
+      "那些禮節來自很久以前。千影曾是某個人的守護騎士，守時、警戒、重視承諾，以及總將自己的意見放在後面的習慣，至今仍留在身上。那段職責如今早已結束，至於他曾守護的是誰、又為何離開，他很少主動談起。",
+      "現在的他是一名傭兵。護送、討伐、探索，只要條件合適便可能接下；但比起結伴，他更習慣獨自行動。甚至沒有委託時，只因聽聞某處存在值得挑戰的強敵或未知之地，便會親自走上一趟。比起證明些什麼，他似乎只是想知道，由自己選擇究竟能走到多遠。",
+      "受到邀請後，他暫時在水晶庭停下腳步。初見時依舊克制而有禮，熟悉之後卻會明顯健談許多，有時說話甚至意外地直接。至於那些偶爾比言語更加大膽的舉動？本人似乎從不覺得有哪裡不妥。"
+    ],
+    quote:"「請坐。不必特意找話題，想說的時候再說便好。」",
+    foot:"曾經的他只需要知道該守在誰的身旁；如今仍在學著決定自己想往哪裡走。"
+  },
+  {
+    name:"阿木", en:"Amu", role:"夥伴 / Staff",
+    meta:[["RP 擔當","接待・陪聊"],["氣質","文雅青年・溫柔克制・偶爾毒舌"]],
+    body:[
+      "初見阿木時，很容易先注意到他的禮貌。說話文雅、語氣不急，待人也稱得上溫柔；只是那份溫柔總留著一點距離，偶爾又會在最平靜的表情下丟出一句略顯尖銳的話，讓人一時分不清究竟是在認真，還是在若無其事地吐槽。再加上偶爾慢半拍的天然反應，他給人的第一印象往往比本人實際上更難捉摸。",
+      "他來自帶有東方文化色彩的環境，曾以學者的身分接觸過不少知識，後來卻逐漸習慣了四處行走的生活。比起把自己綁在某個頭銜上，他更在意一路遇見的人、可以自由選擇的去處，以及那些值得坐下來慢慢品味的料理與酒。若話題恰好對上，他其實相當健談；只是從不急著把所有事情一次說完。",
+      "阿木留在水晶庭並非全然偶然。他有自己的目的，卻沒有特別打算對每位來客解釋清楚。至少在店裡，他只是負責接待與陪聊的普通員工。客人若願意開口，他會順著話題陪上一段；若對方只想安靜喝點東西，他也懂得把沉默留在剛好的位置。",
+      "熟悉之後，那層初見時的克制會鬆開不少。他會變得更愛說話，也更常開玩笑，原本略帶毒舌的語氣通常只剩下輕巧的調侃。比起刻意熱絡，他更像是在聊天裡慢慢拉近距離——不過分親暱，也不故作冷淡，讓人能舒服地決定今晚想說多少、又想留下多少。"
+    ],
+    quote:"「想聊就聊吧。若一時想不到話題，我也可以先替你想一個——只是未必很正經。」",
+    foot:"他似乎確實為了某件事停在這裡，只是比起追問答案，今晚先把酒喝完或許更重要。"
+  }
+];
+let activeMemberIndex=-1;
+function centerMemberCard(index){
+  const carousel=document.getElementById('memberCarousel');
+  const cards=[...document.querySelectorAll('.member-card')];
+  const card=cards[index];
+  if(!carousel||!card)return;
+  const target=Math.max(0,card.offsetLeft-(carousel.clientWidth-card.offsetWidth)/2);
+  carousel.scrollTo({left:target,behavior:'smooth'});
+}
+function renderMember(index,{scroll=true}={}){
+  const cards=[...document.querySelectorAll('.member-card')];
+  const dots=[...document.querySelectorAll('.member-dot')];
+  const detail=document.getElementById('memberDetail');
+  if(!detail||!cards.length)return;
+  activeMemberIndex=(index+MEMBER_PROFILES.length)%MEMBER_PROFILES.length;
+  const m=MEMBER_PROFILES[activeMemberIndex];
+  cards.forEach((c,i)=>{c.classList.toggle('active',i===activeMemberIndex);c.setAttribute('aria-pressed',i===activeMemberIndex?'true':'false')});
+  dots.forEach((d,i)=>d.classList.toggle('active',i===activeMemberIndex));
+  detail.innerHTML=`
+    <div class="m-name">${m.name}<span class="en">${m.en}</span></div>
+    <div class="m-role">${m.role}</div>
+    <div class="m-meta">${m.meta.map(([k,v])=>`<div class="m-meta-row"><span class="m-meta-label">${k}</span><span class="m-meta-value">${v}</span></div>`).join('')}</div>
+    <div class="m-body">${m.body.map(x=>`<p>${x}</p>`).join('')}</div>
+    <div class="m-quote">${m.quote}</div>
+    <div class="m-foot">${m.foot}</div>`;
+  detail.style.animation='none'; void detail.offsetWidth; detail.style.animation='';
+  if(scroll)centerMemberCard(activeMemberIndex);
+}
+(function initMemberCarousel(){
+  const cards=[...document.querySelectorAll('.member-card')];
+  const dots=[...document.querySelectorAll('.member-dot')];
+  const carousel=document.getElementById('memberCarousel');
+  if(!carousel||!cards.length)return;
+  cards.forEach((c,i)=>c.addEventListener('click',()=>renderMember(i)));
+  dots.forEach((d,i)=>d.addEventListener('click',()=>renderMember(i)));
+  document.getElementById('memberPrev')?.addEventListener('click',()=>renderMember(activeMemberIndex<0?cards.length-1:activeMemberIndex-1));
+  document.getElementById('memberNext')?.addEventListener('click',()=>renderMember(activeMemberIndex<0?0:activeMemberIndex+1));
+})();
+
+
+
+</script>
+</body>
+</html>
